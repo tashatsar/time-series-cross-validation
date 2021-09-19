@@ -1,5 +1,5 @@
 # time-series-cross-validation
-TS forecasting using CV. Bonuses: Facebook Prophet parameters tuning, TS missing values imputation!
+TS forecasting using CV. Bonuses: Facebook Prophet parameters tuning, TS missing values imputation.
 
 Time series forecasting using modified dataset of [Store Item Demand Forecasting Challenge](https://www.kaggle.com/c/demand-forecasting-kernels-only/data):
 * 20 stores without decomposition by item
