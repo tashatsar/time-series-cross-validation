@@ -13,28 +13,6 @@
 ## Imports, data reading and descriptive analysis <a class="anchor" id="imp"></a>
 
 
-
-# First Markdown Cell
-* [Notebook](test.ipynb)
-* [Markdown](test.md)
-* [Text](test.txt)
-* [Cell](#Second-Markdown-Cell)
-* [HTML anchor](#intro)
-* [Web](https://stackoverflow.com)
-
-<ul>
-<li><a href="#intro">HTML anchor in HTML</a></li>
-</ul>
-
-## Second Markdown Cell
-
-<a id="intro"></a>
-## Introduction
-
-
-
-
-
 ```python
 import numpy as np
 import pandas as pd
@@ -67,7 +45,7 @@ df.groupby('id').agg({'ds': ['min', 'max', 'count'], 'y': ['mean', 'std']})
 
 
 
-
+ <!-- 
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -86,6 +64,7 @@ df.groupby('id').agg({'ds': ['min', 'max', 'count'], 'y': ['mean', 'std']})
         text-align: right;
     }
 </style>
+ -->
 <table border="1" class="dataframe">
   <thead>
     <tr>
@@ -296,6 +275,8 @@ df.pivot_table(values='y', index='id', columns='day',aggfunc='count')
 
 
 <div>
+ <!-- 
+   
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -309,6 +290,7 @@ df.pivot_table(values='y', index='id', columns='day',aggfunc='count')
         text-align: right;
     }
 </style>
+-->
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -550,6 +532,7 @@ pivot_df.groupby('mnth').min()
 
 
 <div>
+ <!-- 
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -563,6 +546,7 @@ pivot_df.groupby('mnth').min()
         text-align: right;
     }
 </style>
+-->
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -820,6 +804,7 @@ df
 
 
 <div>
+ <!-- 
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -833,6 +818,7 @@ df
         text-align: right;
     }
 </style>
+-->
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -965,13 +951,11 @@ plt.title('Some of Time Series')
 
 
     
-![png](output_9_1.png)
+![png](https://raw.githubusercontent.com/tashatsar/time-series-cross-validation/main/source/plots/output_9_1.png)
     
 
-
-
     
-![png](output_9_2.png)
+![png](https://raw.githubusercontent.com/tashatsar/time-series-cross-validation/main/source/plots/output_9_2.png)
     
 
 
@@ -1037,6 +1021,7 @@ df
 
 
 <div>
+ <!-- 
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -1050,6 +1035,7 @@ df
         text-align: right;
     }
 </style>
+-->
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -1311,6 +1297,7 @@ result
 
 
 <div>
+ <!-- 
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -1324,6 +1311,7 @@ result
         text-align: right;
     }
 </style>
+-->
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -1690,6 +1678,7 @@ result_short
 
 
 <div>
+ <!--  
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -1703,6 +1692,7 @@ result_short
         text-align: right;
     }
 </style>
+-->
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -1867,6 +1857,7 @@ forecast_result
 
 
 <div>
+ <!--    
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -1880,6 +1871,7 @@ forecast_result
         text-align: right;
     }
 </style>
+-->
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
