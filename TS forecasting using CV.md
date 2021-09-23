@@ -23,10 +23,6 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 from tqdm import tqdm
-
-import os
-import sys
-sys.path.append(os.getcwd())
 ```
 
 
@@ -40,12 +36,13 @@ from wrappers import WrapperAutoArima, WrapperProphet, WrapperHoltWinters
 df = pd.read_csv('train.csv')
 df['dt'] = pd.to_datetime(df['dt'])
 df.columns = ['id', 'ds', 'y']
-df.groupby('id').agg({'ds': ['min', 'max', 'count'], 'y': ['mean', 'std']})
+df_agg = df.groupby('id').agg({'ds': ['min', 'max', 'count'], 'y': ['mean', 'std']}).reset_index()
+df_agg
 ```
 
 
 
- <!-- 
+
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -59,20 +56,17 @@ df.groupby('id').agg({'ds': ['min', 'max', 'count'], 'y': ['mean', 'std']})
     .dataframe thead tr th {
         text-align: left;
     }
-
-    .dataframe thead tr:last-of-type th {
-        text-align: right;
-    }
 </style>
- -->
 <table border="1" class="dataframe">
   <thead>
     <tr>
       <th></th>
+      <th>id</th>
       <th colspan="3" halign="left">ds</th>
       <th colspan="2" halign="left">y</th>
     </tr>
     <tr>
+      <th></th>
       <th></th>
       <th>min</th>
       <th>max</th>
@@ -80,18 +74,11 @@ df.groupby('id').agg({'ds': ['min', 'max', 'count'], 'y': ['mean', 'std']})
       <th>mean</th>
       <th>std</th>
     </tr>
-    <tr>
-      <th>id</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
+      <td>0</td>
       <td>2016-01-02</td>
       <td>2017-06-30</td>
       <td>453</td>
@@ -100,6 +87,7 @@ df.groupby('id').agg({'ds': ['min', 'max', 'count'], 'y': ['mean', 'std']})
     </tr>
     <tr>
       <th>1</th>
+      <td>1</td>
       <td>2016-01-02</td>
       <td>2017-06-30</td>
       <td>453</td>
@@ -108,6 +96,7 @@ df.groupby('id').agg({'ds': ['min', 'max', 'count'], 'y': ['mean', 'std']})
     </tr>
     <tr>
       <th>2</th>
+      <td>2</td>
       <td>2016-01-02</td>
       <td>2017-06-30</td>
       <td>448</td>
@@ -116,6 +105,7 @@ df.groupby('id').agg({'ds': ['min', 'max', 'count'], 'y': ['mean', 'std']})
     </tr>
     <tr>
       <th>3</th>
+      <td>3</td>
       <td>2016-01-02</td>
       <td>2017-06-30</td>
       <td>448</td>
@@ -124,6 +114,7 @@ df.groupby('id').agg({'ds': ['min', 'max', 'count'], 'y': ['mean', 'std']})
     </tr>
     <tr>
       <th>4</th>
+      <td>4</td>
       <td>2016-01-02</td>
       <td>2017-06-30</td>
       <td>294</td>
@@ -132,6 +123,7 @@ df.groupby('id').agg({'ds': ['min', 'max', 'count'], 'y': ['mean', 'std']})
     </tr>
     <tr>
       <th>5</th>
+      <td>5</td>
       <td>2016-01-02</td>
       <td>2017-06-30</td>
       <td>451</td>
@@ -140,6 +132,7 @@ df.groupby('id').agg({'ds': ['min', 'max', 'count'], 'y': ['mean', 'std']})
     </tr>
     <tr>
       <th>6</th>
+      <td>6</td>
       <td>2016-01-02</td>
       <td>2017-06-30</td>
       <td>451</td>
@@ -148,6 +141,7 @@ df.groupby('id').agg({'ds': ['min', 'max', 'count'], 'y': ['mean', 'std']})
     </tr>
     <tr>
       <th>7</th>
+      <td>7</td>
       <td>2016-01-02</td>
       <td>2017-06-30</td>
       <td>450</td>
@@ -156,6 +150,7 @@ df.groupby('id').agg({'ds': ['min', 'max', 'count'], 'y': ['mean', 'std']})
     </tr>
     <tr>
       <th>8</th>
+      <td>8</td>
       <td>2016-01-02</td>
       <td>2017-06-30</td>
       <td>294</td>
@@ -164,6 +159,7 @@ df.groupby('id').agg({'ds': ['min', 'max', 'count'], 'y': ['mean', 'std']})
     </tr>
     <tr>
       <th>9</th>
+      <td>9</td>
       <td>2016-01-02</td>
       <td>2017-06-30</td>
       <td>451</td>
@@ -172,6 +168,7 @@ df.groupby('id').agg({'ds': ['min', 'max', 'count'], 'y': ['mean', 'std']})
     </tr>
     <tr>
       <th>10</th>
+      <td>10</td>
       <td>2016-01-02</td>
       <td>2017-06-30</td>
       <td>294</td>
@@ -180,6 +177,7 @@ df.groupby('id').agg({'ds': ['min', 'max', 'count'], 'y': ['mean', 'std']})
     </tr>
     <tr>
       <th>11</th>
+      <td>11</td>
       <td>2016-01-02</td>
       <td>2017-06-30</td>
       <td>452</td>
@@ -188,6 +186,7 @@ df.groupby('id').agg({'ds': ['min', 'max', 'count'], 'y': ['mean', 'std']})
     </tr>
     <tr>
       <th>12</th>
+      <td>12</td>
       <td>2016-01-02</td>
       <td>2017-06-30</td>
       <td>450</td>
@@ -196,6 +195,7 @@ df.groupby('id').agg({'ds': ['min', 'max', 'count'], 'y': ['mean', 'std']})
     </tr>
     <tr>
       <th>13</th>
+      <td>13</td>
       <td>2016-01-02</td>
       <td>2017-06-30</td>
       <td>294</td>
@@ -204,6 +204,7 @@ df.groupby('id').agg({'ds': ['min', 'max', 'count'], 'y': ['mean', 'std']})
     </tr>
     <tr>
       <th>14</th>
+      <td>14</td>
       <td>2016-01-02</td>
       <td>2017-06-30</td>
       <td>450</td>
@@ -212,6 +213,7 @@ df.groupby('id').agg({'ds': ['min', 'max', 'count'], 'y': ['mean', 'std']})
     </tr>
     <tr>
       <th>15</th>
+      <td>15</td>
       <td>2016-01-02</td>
       <td>2017-06-30</td>
       <td>453</td>
@@ -220,6 +222,7 @@ df.groupby('id').agg({'ds': ['min', 'max', 'count'], 'y': ['mean', 'std']})
     </tr>
     <tr>
       <th>16</th>
+      <td>16</td>
       <td>2016-01-02</td>
       <td>2017-06-30</td>
       <td>451</td>
@@ -228,6 +231,7 @@ df.groupby('id').agg({'ds': ['min', 'max', 'count'], 'y': ['mean', 'std']})
     </tr>
     <tr>
       <th>17</th>
+      <td>17</td>
       <td>2016-01-02</td>
       <td>2017-06-30</td>
       <td>294</td>
@@ -236,6 +240,7 @@ df.groupby('id').agg({'ds': ['min', 'max', 'count'], 'y': ['mean', 'std']})
     </tr>
     <tr>
       <th>18</th>
+      <td>18</td>
       <td>2016-01-02</td>
       <td>2017-06-30</td>
       <td>448</td>
@@ -244,6 +249,7 @@ df.groupby('id').agg({'ds': ['min', 'max', 'count'], 'y': ['mean', 'std']})
     </tr>
     <tr>
       <th>19</th>
+      <td>19</td>
       <td>2016-01-02</td>
       <td>2017-06-30</td>
       <td>451</td>
@@ -267,16 +273,14 @@ The interesting thing is that start and end dates are the same of all of the TS,
 ```python
 df['day'] = df['ds'].dt.dayofweek
 df['mnth'] = df['ds'].apply(lambda x: x.replace(day=1))
-#number of days of week (0 - Sunday, 1 - Monday, etc.) for each store
-df.pivot_table(values='y', index='id', columns='day',aggfunc='count')
+# number of days of week (0 - Sunday, 1 - Monday, etc.) for each store
+df.pivot_table(values='y', index='id', columns='day',aggfunc='count').reset_index()
 ```
 
 
 
 
 <div>
- <!-- 
-   
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -290,11 +294,11 @@ df.pivot_table(values='y', index='id', columns='day',aggfunc='count')
         text-align: right;
     }
 </style>
--->
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th>day</th>
+      <th>id</th>
       <th>0</th>
       <th>1</th>
       <th>2</th>
@@ -303,20 +307,11 @@ df.pivot_table(values='y', index='id', columns='day',aggfunc='count')
       <th>5</th>
       <th>6</th>
     </tr>
-    <tr>
-      <th>id</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
+      <td>0</td>
       <td>72</td>
       <td>70</td>
       <td>8</td>
@@ -327,6 +322,7 @@ df.pivot_table(values='y', index='id', columns='day',aggfunc='count')
     </tr>
     <tr>
       <th>1</th>
+      <td>1</td>
       <td>72</td>
       <td>70</td>
       <td>8</td>
@@ -337,6 +333,7 @@ df.pivot_table(values='y', index='id', columns='day',aggfunc='count')
     </tr>
     <tr>
       <th>2</th>
+      <td>2</td>
       <td>72</td>
       <td>69</td>
       <td>8</td>
@@ -347,6 +344,7 @@ df.pivot_table(values='y', index='id', columns='day',aggfunc='count')
     </tr>
     <tr>
       <th>3</th>
+      <td>3</td>
       <td>72</td>
       <td>69</td>
       <td>8</td>
@@ -357,6 +355,7 @@ df.pivot_table(values='y', index='id', columns='day',aggfunc='count')
     </tr>
     <tr>
       <th>4</th>
+      <td>4</td>
       <td>48</td>
       <td>44</td>
       <td>7</td>
@@ -367,6 +366,7 @@ df.pivot_table(values='y', index='id', columns='day',aggfunc='count')
     </tr>
     <tr>
       <th>5</th>
+      <td>5</td>
       <td>72</td>
       <td>70</td>
       <td>8</td>
@@ -377,6 +377,7 @@ df.pivot_table(values='y', index='id', columns='day',aggfunc='count')
     </tr>
     <tr>
       <th>6</th>
+      <td>6</td>
       <td>72</td>
       <td>70</td>
       <td>8</td>
@@ -387,6 +388,7 @@ df.pivot_table(values='y', index='id', columns='day',aggfunc='count')
     </tr>
     <tr>
       <th>7</th>
+      <td>7</td>
       <td>72</td>
       <td>69</td>
       <td>8</td>
@@ -397,6 +399,7 @@ df.pivot_table(values='y', index='id', columns='day',aggfunc='count')
     </tr>
     <tr>
       <th>8</th>
+      <td>8</td>
       <td>48</td>
       <td>44</td>
       <td>7</td>
@@ -407,6 +410,7 @@ df.pivot_table(values='y', index='id', columns='day',aggfunc='count')
     </tr>
     <tr>
       <th>9</th>
+      <td>9</td>
       <td>72</td>
       <td>70</td>
       <td>8</td>
@@ -417,6 +421,7 @@ df.pivot_table(values='y', index='id', columns='day',aggfunc='count')
     </tr>
     <tr>
       <th>10</th>
+      <td>10</td>
       <td>48</td>
       <td>44</td>
       <td>7</td>
@@ -427,6 +432,7 @@ df.pivot_table(values='y', index='id', columns='day',aggfunc='count')
     </tr>
     <tr>
       <th>11</th>
+      <td>11</td>
       <td>72</td>
       <td>70</td>
       <td>8</td>
@@ -437,6 +443,7 @@ df.pivot_table(values='y', index='id', columns='day',aggfunc='count')
     </tr>
     <tr>
       <th>12</th>
+      <td>12</td>
       <td>71</td>
       <td>70</td>
       <td>7</td>
@@ -447,6 +454,7 @@ df.pivot_table(values='y', index='id', columns='day',aggfunc='count')
     </tr>
     <tr>
       <th>13</th>
+      <td>13</td>
       <td>48</td>
       <td>44</td>
       <td>7</td>
@@ -457,6 +465,7 @@ df.pivot_table(values='y', index='id', columns='day',aggfunc='count')
     </tr>
     <tr>
       <th>14</th>
+      <td>14</td>
       <td>72</td>
       <td>69</td>
       <td>8</td>
@@ -467,6 +476,7 @@ df.pivot_table(values='y', index='id', columns='day',aggfunc='count')
     </tr>
     <tr>
       <th>15</th>
+      <td>15</td>
       <td>72</td>
       <td>70</td>
       <td>8</td>
@@ -477,6 +487,7 @@ df.pivot_table(values='y', index='id', columns='day',aggfunc='count')
     </tr>
     <tr>
       <th>16</th>
+      <td>16</td>
       <td>72</td>
       <td>70</td>
       <td>8</td>
@@ -487,6 +498,7 @@ df.pivot_table(values='y', index='id', columns='day',aggfunc='count')
     </tr>
     <tr>
       <th>17</th>
+      <td>17</td>
       <td>48</td>
       <td>44</td>
       <td>7</td>
@@ -497,6 +509,7 @@ df.pivot_table(values='y', index='id', columns='day',aggfunc='count')
     </tr>
     <tr>
       <th>18</th>
+      <td>18</td>
       <td>72</td>
       <td>69</td>
       <td>7</td>
@@ -507,6 +520,7 @@ df.pivot_table(values='y', index='id', columns='day',aggfunc='count')
     </tr>
     <tr>
       <th>19</th>
+      <td>19</td>
       <td>72</td>
       <td>70</td>
       <td>8</td>
@@ -525,14 +539,13 @@ df.pivot_table(values='y', index='id', columns='day',aggfunc='count')
 ```python
 pivot_df = df.pivot_table(values='y', index=['id', 'mnth'], columns='day', aggfunc='count')
 pivot_df = pivot_df.reset_index()
-pivot_df.groupby('mnth').min()
+pivot_df.groupby('mnth').min().reset_index()
 ```
 
 
 
 
 <div>
- <!-- 
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -546,11 +559,11 @@ pivot_df.groupby('mnth').min()
         text-align: right;
     }
 </style>
--->
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th>day</th>
+      <th>mnth</th>
       <th>id</th>
       <th>0</th>
       <th>1</th>
@@ -560,21 +573,11 @@ pivot_df.groupby('mnth').min()
       <th>5</th>
       <th>6</th>
     </tr>
-    <tr>
-      <th>mnth</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
   </thead>
   <tbody>
     <tr>
-      <th>2016-01-01</th>
+      <th>0</th>
+      <td>2016-01-01</td>
       <td>0</td>
       <td>4.0</td>
       <td>NaN</td>
@@ -585,7 +588,8 @@ pivot_df.groupby('mnth').min()
       <td>5.0</td>
     </tr>
     <tr>
-      <th>2016-02-01</th>
+      <th>1</th>
+      <td>2016-02-01</td>
       <td>0</td>
       <td>4.0</td>
       <td>NaN</td>
@@ -596,7 +600,8 @@ pivot_df.groupby('mnth').min()
       <td>4.0</td>
     </tr>
     <tr>
-      <th>2016-03-01</th>
+      <th>2</th>
+      <td>2016-03-01</td>
       <td>0</td>
       <td>4.0</td>
       <td>5.0</td>
@@ -607,7 +612,8 @@ pivot_df.groupby('mnth').min()
       <td>4.0</td>
     </tr>
     <tr>
-      <th>2016-04-01</th>
+      <th>3</th>
+      <td>2016-04-01</td>
       <td>0</td>
       <td>3.0</td>
       <td>4.0</td>
@@ -618,21 +624,11 @@ pivot_df.groupby('mnth').min()
       <td>4.0</td>
     </tr>
     <tr>
-      <th>2016-05-01</th>
+      <th>4</th>
+      <td>2016-05-01</td>
       <td>0</td>
       <td>5.0</td>
       <td>5.0</td>
-      <td>NaN</td>
-      <td>4.0</td>
-      <td>4.0</td>
-      <td>4.0</td>
-      <td>3.0</td>
-    </tr>
-    <tr>
-      <th>2016-06-01</th>
-      <td>0</td>
-      <td>4.0</td>
-      <td>4.0</td>
       <td>NaN</td>
       <td>4.0</td>
       <td>4.0</td>
@@ -640,7 +636,20 @@ pivot_df.groupby('mnth').min()
       <td>3.0</td>
     </tr>
     <tr>
-      <th>2016-07-01</th>
+      <th>5</th>
+      <td>2016-06-01</td>
+      <td>0</td>
+      <td>4.0</td>
+      <td>4.0</td>
+      <td>NaN</td>
+      <td>4.0</td>
+      <td>4.0</td>
+      <td>4.0</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2016-07-01</td>
       <td>0</td>
       <td>4.0</td>
       <td>4.0</td>
@@ -651,7 +660,8 @@ pivot_df.groupby('mnth').min()
       <td>5.0</td>
     </tr>
     <tr>
-      <th>2016-08-01</th>
+      <th>7</th>
+      <td>2016-08-01</td>
       <td>0</td>
       <td>5.0</td>
       <td>5.0</td>
@@ -662,7 +672,8 @@ pivot_df.groupby('mnth').min()
       <td>4.0</td>
     </tr>
     <tr>
-      <th>2016-09-01</th>
+      <th>8</th>
+      <td>2016-09-01</td>
       <td>0</td>
       <td>4.0</td>
       <td>4.0</td>
@@ -673,7 +684,8 @@ pivot_df.groupby('mnth').min()
       <td>4.0</td>
     </tr>
     <tr>
-      <th>2016-10-01</th>
+      <th>9</th>
+      <td>2016-10-01</td>
       <td>0</td>
       <td>3.0</td>
       <td>4.0</td>
@@ -684,7 +696,8 @@ pivot_df.groupby('mnth').min()
       <td>5.0</td>
     </tr>
     <tr>
-      <th>2016-11-01</th>
+      <th>10</th>
+      <td>2016-11-01</td>
       <td>0</td>
       <td>4.0</td>
       <td>4.0</td>
@@ -695,7 +708,8 @@ pivot_df.groupby('mnth').min()
       <td>4.0</td>
     </tr>
     <tr>
-      <th>2016-12-01</th>
+      <th>11</th>
+      <td>2016-12-01</td>
       <td>0</td>
       <td>3.0</td>
       <td>4.0</td>
@@ -706,7 +720,8 @@ pivot_df.groupby('mnth').min()
       <td>3.0</td>
     </tr>
     <tr>
-      <th>2017-01-01</th>
+      <th>12</th>
+      <td>2017-01-01</td>
       <td>0</td>
       <td>5.0</td>
       <td>5.0</td>
@@ -717,7 +732,8 @@ pivot_df.groupby('mnth').min()
       <td>4.0</td>
     </tr>
     <tr>
-      <th>2017-02-01</th>
+      <th>13</th>
+      <td>2017-02-01</td>
       <td>0</td>
       <td>4.0</td>
       <td>4.0</td>
@@ -728,7 +744,8 @@ pivot_df.groupby('mnth').min()
       <td>4.0</td>
     </tr>
     <tr>
-      <th>2017-03-01</th>
+      <th>14</th>
+      <td>2017-03-01</td>
       <td>0</td>
       <td>4.0</td>
       <td>4.0</td>
@@ -739,7 +756,8 @@ pivot_df.groupby('mnth').min()
       <td>4.0</td>
     </tr>
     <tr>
-      <th>2017-04-01</th>
+      <th>15</th>
+      <td>2017-04-01</td>
       <td>0</td>
       <td>3.0</td>
       <td>4.0</td>
@@ -750,7 +768,8 @@ pivot_df.groupby('mnth').min()
       <td>5.0</td>
     </tr>
     <tr>
-      <th>2017-05-01</th>
+      <th>16</th>
+      <td>2017-05-01</td>
       <td>0</td>
       <td>4.0</td>
       <td>5.0</td>
@@ -761,7 +780,8 @@ pivot_df.groupby('mnth').min()
       <td>3.0</td>
     </tr>
     <tr>
-      <th>2017-06-01</th>
+      <th>17</th>
+      <td>2017-06-01</td>
       <td>0</td>
       <td>4.0</td>
       <td>4.0</td>
@@ -781,21 +801,21 @@ Lets exclude from consideration 01 and 02 months of 2016 as irrelevant becaue of
 
 
 ```python
-df = df[df['ds']>=pd.to_datetime('2016-03-01')]
+df = df[df['ds'] >= pd.to_datetime('2016-03-01')]
 
 dates_list = pd.date_range(df['ds'].min(), df['ds'].max())
-dates_list = dates_list[dates_list.weekday != 2] # exclude second day of week (day off)
+dates_list = dates_list[dates_list.weekday != 2]  # exclude second day of week (day off)
 
 tmp_dict = pd.DataFrame(dates_list).copy()
 tmp_dict.columns = ['ds']
-for ts in range(20):
+for ts in range(len(np.unique(df['id']))):
     tmp_dict['id'] = ts
     df = pd.merge(df, tmp_dict, how='outer')
 
 df = df.sort_values(['id', 'ds'])
 
-df['day'] = df['ds'].dt.dayofweek #day of week
-df['mnth'] = df['ds'].apply(lambda x: x.replace(day=1)) #month
+df['day'] = df['ds'].dt.dayofweek  # day of week
+df['mnth'] = df['ds'].apply(lambda x: x.replace(day=1))  # month
 df = df.reset_index(drop=True)
 df
 ```
@@ -804,7 +824,6 @@ df
 
 
 <div>
- <!-- 
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -818,7 +837,6 @@ df
         text-align: right;
     }
 </style>
--->
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -928,34 +946,30 @@ df
 
 
 ```python
+short_ts = df_agg[df_agg['ds']['count']<400].index.tolist()
+complete_ts = df_agg[df_agg['ds']['count']>=400].index.tolist()
+```
+
+
+```python
 # some plots
-short_ts = [4, 8, 10, 13, 17]
 
 plt.figure(figsize=(12, 6))
 for ts in short_ts:
-    sns.lineplot(data=df.loc[df['id']==ts], x='ds', y='y')
+    sns.lineplot(data=df.loc[df['id']==ts], x='ds', y='y', palette='Blues')
 plt.title('"Short" Time Series')
-
-plt.figure(figsize=(12, 6))
-for ts in [0, 5, 10]:
-    sns.lineplot(data=df.loc[df['id']==ts], x='ds', y='y')
-plt.title('Some of Time Series')
 ```
 
 
 
 
-    Text(0.5, 1.0, 'Some of Time Series')
+    Text(0.5, 1.0, '"Short" Time Series')
 
 
 
 
     
-![png](https://raw.githubusercontent.com/tashatsar/time-series-cross-validation/main/source/plots/output_9_1.png)
-    
-
-    
-![png](https://raw.githubusercontent.com/tashatsar/time-series-cross-validation/main/source/plots/output_9_2.png)
+![png](output_10_1.png)
     
 
 
@@ -1021,7 +1035,6 @@ df
 
 
 <div>
- <!-- 
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -1035,7 +1048,6 @@ df
         text-align: right;
     }
 </style>
--->
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -1263,8 +1275,15 @@ The best model for forecasting "complete" time series (the majority of all TS, t
 
 
 ```python
-complete_ts = [0, 1, 15, 2, 3, 5, 6, 7, 9, 11, 12, 14, 16, 18, 19]
-short_ts = [4, 8, 10, 13, 17]
+def ts_metrics_all(ts_list, models_list, df, cv_folds=3, horizon=31):
+    result = []
+    for ts in tqdm(ts_list):    
+        tmp = df.loc[(df['id']==ts)]
+        for model in models_list:
+            mean_smae, mean_mape, model_name = ts_cv_metrics(tmp, model, cv_folds=cv_folds, horizon=horizon)
+            res = {'id': ts, 'model': model_name, 'smae': mean_smae, 'mape': mean_mape}
+            result.append(res)
+    return result
 ```
 
 
@@ -1273,31 +1292,22 @@ hw_model = WrapperHoltWinters()
 arima_model = WrapperAutoArima()
 prophet_model = WrapperProphet()
 models = [hw_model, arima_model, prophet_model]
-
-result = []
-for ts in tqdm(complete_ts):
-    try:
-        tmp = df.loc[df['id']==ts]
-        for model in models:
-            mean_smae, mean_mape, model_name = ts_cv_metrics(tmp, model, cv_folds=3, horizon=31)
-            res = {'id': ts, 'model': model_name,
-                   'smae': mean_smae, 'mape': mean_mape}
-            result.append(res)
-    except:
-        print(ts, 'smth went wrong')
 ```
 
 
 ```python
-result = pd.DataFrame(result)
-result
+metrics_complete_ts = ts_metrics_all(complete_ts, models, df, cv_folds=5, horizon=31)
+metrics_complete_ts = pd.DataFrame(metrics_complete_ts)
+metrics_complete_ts
 ```
+
+    100%|███████████████████████████████████████████████████████████████████████████████| 15/15 [1:25:55<00:00, 343.71s/it]
+    
 
 
 
 
 <div>
- <!-- 
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -1311,7 +1321,6 @@ result
         text-align: right;
     }
 </style>
--->
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -1327,316 +1336,316 @@ result
       <th>0</th>
       <td>0</td>
       <td>HoltWinters</td>
-      <td>0.207969</td>
-      <td>0.220126</td>
+      <td>0.195047</td>
+      <td>0.199159</td>
     </tr>
     <tr>
       <th>1</th>
       <td>0</td>
       <td>AutoArima</td>
-      <td>0.173781</td>
-      <td>0.179067</td>
+      <td>0.178614</td>
+      <td>0.191724</td>
     </tr>
     <tr>
       <th>2</th>
       <td>0</td>
       <td>Prophet</td>
-      <td>0.129320</td>
-      <td>0.129346</td>
+      <td>0.120531</td>
+      <td>0.123942</td>
     </tr>
     <tr>
       <th>3</th>
       <td>1</td>
       <td>HoltWinters</td>
-      <td>0.185294</td>
-      <td>0.185153</td>
+      <td>0.188494</td>
+      <td>0.185614</td>
     </tr>
     <tr>
       <th>4</th>
       <td>1</td>
       <td>AutoArima</td>
-      <td>0.171511</td>
-      <td>0.161834</td>
+      <td>0.163679</td>
+      <td>0.156482</td>
     </tr>
     <tr>
       <th>5</th>
       <td>1</td>
       <td>Prophet</td>
-      <td>0.130690</td>
-      <td>0.124025</td>
+      <td>0.134649</td>
+      <td>0.136642</td>
     </tr>
     <tr>
       <th>6</th>
-      <td>15</td>
+      <td>2</td>
       <td>HoltWinters</td>
-      <td>0.174094</td>
-      <td>0.178552</td>
+      <td>0.167762</td>
+      <td>0.162852</td>
     </tr>
     <tr>
       <th>7</th>
-      <td>15</td>
+      <td>2</td>
       <td>AutoArima</td>
-      <td>0.167237</td>
-      <td>0.165050</td>
+      <td>0.136447</td>
+      <td>0.134170</td>
     </tr>
     <tr>
       <th>8</th>
-      <td>15</td>
+      <td>2</td>
       <td>Prophet</td>
-      <td>0.115405</td>
-      <td>0.108300</td>
+      <td>0.100451</td>
+      <td>0.100364</td>
     </tr>
     <tr>
       <th>9</th>
-      <td>2</td>
+      <td>3</td>
       <td>HoltWinters</td>
-      <td>0.148177</td>
-      <td>0.143284</td>
+      <td>0.314029</td>
+      <td>0.328993</td>
     </tr>
     <tr>
       <th>10</th>
-      <td>2</td>
+      <td>3</td>
       <td>AutoArima</td>
-      <td>0.140365</td>
-      <td>0.132862</td>
+      <td>0.242179</td>
+      <td>0.269331</td>
     </tr>
     <tr>
       <th>11</th>
-      <td>2</td>
+      <td>3</td>
       <td>Prophet</td>
-      <td>0.098743</td>
-      <td>0.094825</td>
+      <td>0.150955</td>
+      <td>0.159472</td>
     </tr>
     <tr>
       <th>12</th>
-      <td>3</td>
+      <td>5</td>
       <td>HoltWinters</td>
-      <td>0.248699</td>
-      <td>0.266441</td>
+      <td>0.233058</td>
+      <td>0.241841</td>
     </tr>
     <tr>
       <th>13</th>
-      <td>3</td>
+      <td>5</td>
       <td>AutoArima</td>
-      <td>0.243386</td>
-      <td>0.265810</td>
+      <td>0.187230</td>
+      <td>0.194210</td>
     </tr>
     <tr>
       <th>14</th>
-      <td>3</td>
+      <td>5</td>
       <td>Prophet</td>
-      <td>0.145481</td>
-      <td>0.147477</td>
+      <td>0.150049</td>
+      <td>0.163757</td>
     </tr>
     <tr>
       <th>15</th>
-      <td>5</td>
+      <td>6</td>
       <td>HoltWinters</td>
-      <td>0.234411</td>
-      <td>0.255255</td>
+      <td>0.227989</td>
+      <td>0.228961</td>
     </tr>
     <tr>
       <th>16</th>
-      <td>5</td>
+      <td>6</td>
       <td>AutoArima</td>
-      <td>0.199739</td>
-      <td>0.206200</td>
+      <td>0.190754</td>
+      <td>0.196153</td>
     </tr>
     <tr>
       <th>17</th>
-      <td>5</td>
+      <td>6</td>
       <td>Prophet</td>
-      <td>0.156101</td>
-      <td>0.167875</td>
+      <td>0.157743</td>
+      <td>0.174384</td>
     </tr>
     <tr>
       <th>18</th>
-      <td>6</td>
+      <td>7</td>
       <td>HoltWinters</td>
-      <td>0.203005</td>
-      <td>0.213780</td>
+      <td>0.186199</td>
+      <td>0.177341</td>
     </tr>
     <tr>
       <th>19</th>
-      <td>6</td>
+      <td>7</td>
       <td>AutoArima</td>
-      <td>0.200730</td>
-      <td>0.201518</td>
+      <td>0.132788</td>
+      <td>0.131292</td>
     </tr>
     <tr>
       <th>20</th>
-      <td>6</td>
+      <td>7</td>
       <td>Prophet</td>
-      <td>0.155466</td>
-      <td>0.164282</td>
+      <td>0.095446</td>
+      <td>0.096572</td>
     </tr>
     <tr>
       <th>21</th>
-      <td>7</td>
+      <td>9</td>
       <td>HoltWinters</td>
-      <td>0.145933</td>
-      <td>0.136509</td>
+      <td>0.242500</td>
+      <td>0.235755</td>
     </tr>
     <tr>
       <th>22</th>
-      <td>7</td>
+      <td>9</td>
       <td>AutoArima</td>
-      <td>0.136542</td>
-      <td>0.129567</td>
+      <td>0.171521</td>
+      <td>0.177408</td>
     </tr>
     <tr>
       <th>23</th>
-      <td>7</td>
+      <td>9</td>
       <td>Prophet</td>
-      <td>0.091509</td>
-      <td>0.087947</td>
+      <td>0.130478</td>
+      <td>0.141234</td>
     </tr>
     <tr>
       <th>24</th>
-      <td>9</td>
+      <td>11</td>
       <td>HoltWinters</td>
-      <td>0.196656</td>
-      <td>0.190611</td>
+      <td>0.215427</td>
+      <td>0.215640</td>
     </tr>
     <tr>
       <th>25</th>
-      <td>9</td>
+      <td>11</td>
       <td>AutoArima</td>
-      <td>0.177318</td>
-      <td>0.176246</td>
+      <td>0.200275</td>
+      <td>0.200806</td>
     </tr>
     <tr>
       <th>26</th>
-      <td>9</td>
+      <td>11</td>
       <td>Prophet</td>
-      <td>0.112773</td>
-      <td>0.109840</td>
+      <td>0.140403</td>
+      <td>0.150781</td>
     </tr>
     <tr>
       <th>27</th>
-      <td>11</td>
+      <td>12</td>
       <td>HoltWinters</td>
-      <td>0.213008</td>
-      <td>0.223455</td>
+      <td>0.248980</td>
+      <td>0.255750</td>
     </tr>
     <tr>
       <th>28</th>
-      <td>11</td>
+      <td>12</td>
       <td>AutoArima</td>
-      <td>0.214573</td>
-      <td>0.214508</td>
+      <td>0.261737</td>
+      <td>0.301395</td>
     </tr>
     <tr>
       <th>29</th>
-      <td>11</td>
+      <td>12</td>
       <td>Prophet</td>
-      <td>0.138155</td>
-      <td>0.143233</td>
+      <td>0.159377</td>
+      <td>0.167154</td>
     </tr>
     <tr>
       <th>30</th>
-      <td>12</td>
+      <td>14</td>
       <td>HoltWinters</td>
-      <td>0.259463</td>
-      <td>0.273931</td>
+      <td>0.202548</td>
+      <td>0.196056</td>
     </tr>
     <tr>
       <th>31</th>
-      <td>12</td>
+      <td>14</td>
       <td>AutoArima</td>
-      <td>0.249863</td>
-      <td>0.256040</td>
+      <td>0.226541</td>
+      <td>0.237733</td>
     </tr>
     <tr>
       <th>32</th>
-      <td>12</td>
+      <td>14</td>
       <td>Prophet</td>
-      <td>0.143384</td>
-      <td>0.144366</td>
+      <td>0.129704</td>
+      <td>0.132997</td>
     </tr>
     <tr>
       <th>33</th>
-      <td>14</td>
+      <td>15</td>
       <td>HoltWinters</td>
-      <td>0.177329</td>
-      <td>0.170061</td>
+      <td>0.210965</td>
+      <td>0.211920</td>
     </tr>
     <tr>
       <th>34</th>
-      <td>14</td>
+      <td>15</td>
       <td>AutoArima</td>
-      <td>0.223716</td>
-      <td>0.226113</td>
+      <td>0.159229</td>
+      <td>0.159316</td>
     </tr>
     <tr>
       <th>35</th>
-      <td>14</td>
+      <td>15</td>
       <td>Prophet</td>
-      <td>0.135872</td>
-      <td>0.134552</td>
+      <td>0.120056</td>
+      <td>0.118725</td>
     </tr>
     <tr>
       <th>36</th>
       <td>16</td>
       <td>HoltWinters</td>
-      <td>0.178969</td>
-      <td>0.178907</td>
+      <td>0.203399</td>
+      <td>0.200583</td>
     </tr>
     <tr>
       <th>37</th>
       <td>16</td>
       <td>AutoArima</td>
-      <td>0.157334</td>
-      <td>0.144577</td>
+      <td>0.154907</td>
+      <td>0.151604</td>
     </tr>
     <tr>
       <th>38</th>
       <td>16</td>
       <td>Prophet</td>
-      <td>0.122563</td>
-      <td>0.114991</td>
+      <td>0.126908</td>
+      <td>0.129348</td>
     </tr>
     <tr>
       <th>39</th>
       <td>18</td>
       <td>HoltWinters</td>
-      <td>0.201371</td>
-      <td>0.201734</td>
+      <td>0.213882</td>
+      <td>0.211394</td>
     </tr>
     <tr>
       <th>40</th>
       <td>18</td>
       <td>AutoArima</td>
-      <td>0.198999</td>
-      <td>0.186070</td>
+      <td>0.198957</td>
+      <td>0.191751</td>
     </tr>
     <tr>
       <th>41</th>
       <td>18</td>
       <td>Prophet</td>
-      <td>0.137235</td>
-      <td>0.138189</td>
+      <td>0.133445</td>
+      <td>0.138143</td>
     </tr>
     <tr>
       <th>42</th>
       <td>19</td>
       <td>HoltWinters</td>
-      <td>0.203757</td>
-      <td>0.199414</td>
+      <td>0.238784</td>
+      <td>0.236639</td>
     </tr>
     <tr>
       <th>43</th>
       <td>19</td>
       <td>AutoArima</td>
-      <td>0.207571</td>
-      <td>0.196393</td>
+      <td>0.214069</td>
+      <td>0.212975</td>
     </tr>
     <tr>
       <th>44</th>
       <td>19</td>
       <td>Prophet</td>
-      <td>0.137634</td>
-      <td>0.133933</td>
+      <td>0.152065</td>
+      <td>0.161517</td>
     </tr>
   </tbody>
 </table>
@@ -1650,35 +1659,18 @@ For incomplete time series the same approach as for the rest of data was used. T
 
 
 ```python
-hw_model = WrapperHoltWinters()
-arima_model = WrapperAutoArima()
-prophet_model = WrapperProphet()
-models = [hw_model, arima_model, prophet_model]
-
-result_short = []
-for ts in tqdm(short_ts):
-    try:
-        tmp = df.loc[(df['id']==ts)&(df['ds']>=pd.to_datetime('2017-01-02'))]
-        for model in models:
-            mean_smae, mean_mape, model_name = ts_cv_metrics(tmp, model, cv_folds=2, horizon=31)
-            res = {'id': ts, 'model': model_name,
-                   'smae': mean_smae, 'mape': mean_mape}
-            result_short.append(res)
-    except:
-        print(ts, 'smth went wrong')        
+metrics_short_ts = ts_metrics_all(short_ts, models, df[df['ds']>=pd.to_datetime('2017-01-02')], cv_folds=2, horizon=31)
+metrics_short_ts = pd.DataFrame(metrics_short_ts)
+metrics_short_ts
 ```
 
-
-```python
-result_short = pd.DataFrame(result_short)
-result_short
-```
+    100%|███████████████████████████████████████████████████████████████████████████████████| 5/5 [16:19<00:00, 195.82s/it]
+    
 
 
 
 
 <div>
- <!--  
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -1692,7 +1684,6 @@ result_short
         text-align: right;
     }
 </style>
--->
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -1708,106 +1699,106 @@ result_short
       <th>0</th>
       <td>4</td>
       <td>HoltWinters</td>
-      <td>0.233255</td>
-      <td>0.239264</td>
+      <td>0.205914</td>
+      <td>0.210225</td>
     </tr>
     <tr>
       <th>1</th>
       <td>4</td>
       <td>AutoArima</td>
-      <td>0.182528</td>
-      <td>0.200218</td>
+      <td>0.179538</td>
+      <td>0.197524</td>
     </tr>
     <tr>
       <th>2</th>
       <td>4</td>
       <td>Prophet</td>
-      <td>0.157901</td>
-      <td>0.171696</td>
+      <td>0.158933</td>
+      <td>0.173351</td>
     </tr>
     <tr>
       <th>3</th>
       <td>8</td>
       <td>HoltWinters</td>
-      <td>0.163539</td>
-      <td>0.156702</td>
+      <td>0.163386</td>
+      <td>0.155376</td>
     </tr>
     <tr>
       <th>4</th>
       <td>8</td>
       <td>AutoArima</td>
-      <td>0.137863</td>
-      <td>0.135526</td>
+      <td>0.143364</td>
+      <td>0.140614</td>
     </tr>
     <tr>
       <th>5</th>
       <td>8</td>
       <td>Prophet</td>
-      <td>0.117764</td>
-      <td>0.119826</td>
+      <td>0.114609</td>
+      <td>0.116827</td>
     </tr>
     <tr>
       <th>6</th>
       <td>10</td>
       <td>HoltWinters</td>
-      <td>0.149362</td>
-      <td>0.150714</td>
+      <td>0.183850</td>
+      <td>0.182685</td>
     </tr>
     <tr>
       <th>7</th>
       <td>10</td>
       <td>AutoArima</td>
-      <td>0.113196</td>
-      <td>0.113814</td>
+      <td>0.112023</td>
+      <td>0.110992</td>
     </tr>
     <tr>
       <th>8</th>
       <td>10</td>
       <td>Prophet</td>
-      <td>0.098845</td>
-      <td>0.103349</td>
+      <td>0.099079</td>
+      <td>0.103406</td>
     </tr>
     <tr>
       <th>9</th>
       <td>13</td>
       <td>HoltWinters</td>
-      <td>0.129837</td>
-      <td>0.120907</td>
+      <td>0.126078</td>
+      <td>0.115859</td>
     </tr>
     <tr>
       <th>10</th>
       <td>13</td>
       <td>AutoArima</td>
-      <td>0.124352</td>
-      <td>0.120898</td>
+      <td>0.128237</td>
+      <td>0.123426</td>
     </tr>
     <tr>
       <th>11</th>
       <td>13</td>
       <td>Prophet</td>
-      <td>0.088696</td>
-      <td>0.091388</td>
+      <td>0.090895</td>
+      <td>0.093208</td>
     </tr>
     <tr>
       <th>12</th>
       <td>17</td>
       <td>HoltWinters</td>
-      <td>0.213321</td>
-      <td>0.224631</td>
+      <td>0.239347</td>
+      <td>0.249304</td>
     </tr>
     <tr>
       <th>13</th>
       <td>17</td>
       <td>AutoArima</td>
-      <td>0.198158</td>
-      <td>0.193846</td>
+      <td>0.201788</td>
+      <td>0.195898</td>
     </tr>
     <tr>
       <th>14</th>
       <td>17</td>
       <td>Prophet</td>
-      <td>0.133809</td>
-      <td>0.136719</td>
+      <td>0.136196</td>
+      <td>0.137200</td>
     </tr>
   </tbody>
 </table>
@@ -1829,13 +1820,14 @@ Pipeline used:
 ```python
 prophet_model = WrapperProphet()
 forecast_result = pd.DataFrame()
-for ts in tqdm(range(20)):
+for ts in tqdm(np.unique(df['id'])):
     if ts in short_ts:
-        tmp = df.loc[(df['id']==ts)&(df['ds']>=pd.to_datetime('2017-01-02'))]
+        tmp = df.loc[(df['id']==ts)&(df['ds'] >= pd.to_datetime('2017-01-02'))]
         cv=3
     else: 
         tmp = df.loc[df['id']==ts]
         cv=5
+        
     prophet_model.fit(tmp, cv=cv)
     pred = prophet_model.predict(tmp, 31)
     pred['target'] = np.where(pred['ds'].dt.dayofweek == 2, 0, pred['yhat']).tolist()
@@ -1845,7 +1837,7 @@ for ts in tqdm(range(20)):
 forecast_result = forecast_result.sort_values(['id', 'ds'])
 ```
 
-    100%|███████████████████████████████████████████████████████████████████████████████| 20/20 [1:41:04<00:00, 303.20s/it]
+    100%|██████████████████████████████████████████████████████████████████████████████████| 20/20 [33:07<00:00, 99.39s/it]
     
 
 
@@ -1857,7 +1849,6 @@ forecast_result
 
 
 <div>
- <!--    
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -1871,7 +1862,6 @@ forecast_result
         text-align: right;
     }
 </style>
--->
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -1922,31 +1912,31 @@ forecast_result
       <th>26</th>
       <td>19</td>
       <td>2017-07-27</td>
-      <td>497.903196</td>
+      <td>495.439183</td>
     </tr>
     <tr>
       <th>27</th>
       <td>19</td>
       <td>2017-07-28</td>
-      <td>470.888285</td>
+      <td>468.554276</td>
     </tr>
     <tr>
       <th>28</th>
       <td>19</td>
       <td>2017-07-29</td>
-      <td>454.039635</td>
+      <td>451.819106</td>
     </tr>
     <tr>
       <th>29</th>
       <td>19</td>
       <td>2017-07-30</td>
-      <td>469.952823</td>
+      <td>467.826323</td>
     </tr>
     <tr>
       <th>30</th>
       <td>19</td>
       <td>2017-07-31</td>
-      <td>472.724480</td>
+      <td>470.567212</td>
     </tr>
   </tbody>
 </table>
