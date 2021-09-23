@@ -54,11 +54,10 @@ def ts_cv_metrics(data, model, cv_folds=3, horizon=31):
         test_end_dt = end_dt - pd.Timedelta(days=horizon) * cv_iter
         test_start_dt = test_end_dt - pd.Timedelta(days=horizon)
         train_df = data[(data['ds'] < test_start_dt)]
-        test_df = data[(data['ds'] >= test_start_dt) & (data['ds'] < test_end_dt)]
-
+        test_df = data[(data['ds'] >= test_start_dt) & (data['ds'] <= test_end_dt)]
         model.fit(train_df)
         if 'prophet' in (str(model)).lower():
-            pred = model.predict(train_df, horizon=horizon)
+            pred = model.predict(train_df, horizon=horizon+4)
             pred = pred[pred['ds'].isin(test_df['ds'])]
         else:
             pred = model.predict(train_df, horizon=len(test_df))
@@ -68,7 +67,7 @@ def ts_cv_metrics(data, model, cv_folds=3, horizon=31):
         result_mape.append(mape)
 
     mean_smae = stat.mean(result_smae)
-
     mean_mape = stat.mean(result_mape)
+    model_name = model.__class__.__name__[7:]
 
-    return mean_smae, mean_mape, model.__class__.__name__[7:]
+    return mean_smae, mean_mape, model_name

@@ -1,4 +1,5 @@
 import warnings
+import logging
 
 import numpy as np
 import pandas as pd
@@ -9,6 +10,8 @@ from sklearn.model_selection import ParameterGrid
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
 
 warnings.filterwarnings('ignore')
+logger = logging.getLogger()
+logger.setLevel(logging.CRITICAL)
 
 from ts_cv import smae_score
 
@@ -77,7 +80,7 @@ class WrapperAutoArima:
                                    trace=False)
         pass
 
-    def predict(self, data=None, horizon):
+    def predict(self, data, horizon):
         """
         Predict function for auto ARIMA model.
 
@@ -127,7 +130,7 @@ class WrapperProphet:
                                     daily_seasonality=False,
                                     yearly_seasonality=False,
                                     seasonality_mode=param['seasonality_mode'],
-                                    )
+                                    n_changepoints=15)
                     if param['monthly_seasonality'] != 0:
                         model.add_seasonality(name='monthly', period=30.5, fourier_order=param['monthly_seasonality'])
                     test_end_dt = end_dt - pd.Timedelta(days=horizon) * cv_iter
@@ -136,6 +139,7 @@ class WrapperProphet:
                     future = pd.DataFrame(data[(data['ds'] >= test_start_dt) & (data['ds'] < test_end_dt)]).reset_index(
                         drop=True)
                     forecast = model.predict(future)
+
 
                     dates = forecast[(forecast['ds'] >= test_start_dt) & \
                                      (forecast['ds'] < test_end_dt)]['ds']
@@ -188,3 +192,4 @@ class WrapperBasicProphet:
         forecast = self.model.predict(future)
         forecast = forecast[-horizon:][['ds', 'yhat']].reset_index(drop=True)
         return forecast
+
