@@ -44,6 +44,7 @@ df_agg
 
 
 <div>
+<!---
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -57,6 +58,8 @@ df_agg
         text-align: left;
     }
 </style>
+-->
+   
 <table border="1" class="dataframe">
   <thead>
     <tr>
@@ -281,6 +284,7 @@ df.pivot_table(values='y', index='id', columns='day',aggfunc='count').reset_inde
 
 
 <div>
+<!---
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -294,6 +298,8 @@ df.pivot_table(values='y', index='id', columns='day',aggfunc='count').reset_inde
         text-align: right;
     }
 </style>
+-->
+   
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -546,6 +552,7 @@ pivot_df.groupby('mnth').min().reset_index()
 
 
 <div>
+<!---
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -559,6 +566,8 @@ pivot_df.groupby('mnth').min().reset_index()
         text-align: right;
     }
 </style>
+-->
+   
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -824,6 +833,7 @@ df
 
 
 <div>
+<!---
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -837,6 +847,8 @@ df
         text-align: right;
     }
 </style>
+-->
+   
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -969,7 +981,7 @@ plt.title('"Short" Time Series')
 
 
     
-![png](output_10_1.png)
+![png](https://raw.githubusercontent.com/tashatsar/time-series-cross-validation/main/source/plots/output_10_1.png)
     
 
 
@@ -1035,6 +1047,7 @@ df
 
 
 <div>
+<!---
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -1048,6 +1061,7 @@ df
         text-align: right;
     }
 </style>
+-->
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -1308,6 +1322,7 @@ metrics_complete_ts
 
 
 <div>
+<!---
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -1321,6 +1336,8 @@ metrics_complete_ts
         text-align: right;
     }
 </style>
+-->
+   
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -1671,6 +1688,8 @@ metrics_short_ts
 
 
 <div>
+   
+<!---
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -1684,6 +1703,8 @@ metrics_short_ts
         text-align: right;
     }
 </style>
+--> 
+   
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -1849,6 +1870,7 @@ forecast_result
 
 
 <div>
+<!---
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -1862,6 +1884,8 @@ forecast_result
         text-align: right;
     }
 </style>
+-->
+   
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
